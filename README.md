@@ -9,7 +9,7 @@ Root
 ├─ nexa/                     : Nexa skill
 │  ├─ references/
 │  │  ├─ common-*.md         : shared components over other references
-│  │  ├─ global-*.md         : shared gobal definitions
+│  │  ├─ global-*.md         : shared global definitions
 │  │  └─ object-*.md         : object-specific specifications
 │  └─ SKILL.md               : skill definition and workflow
 │
