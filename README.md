@@ -148,6 +148,25 @@ Integrate OpenCode with Globant Enterprise AI (GEAI)
 		}
 		```
 
+### Step 5: Run the skill from any CLI provider
+After linking and validating the skill, open the coding CLI you set up and start a session in your project folder.
+
+Once you open your CLI, start typing your skill-related request:
+<pre>
+╔═════════════════════════════════════════╗
+║ ○                                     ○ ║
+║        YOUR CODING-CLI INTERFACE        ║
+║ ○                                     ○ ║
+╚═════════════════════════════════════════╝
+ 
+> %type-your-request-here%
+</pre>
+
+Examples that trigger `nexa` skill:
+- _Create a Transaction object for Product with ProductId, ProductName, ProductPrice_
+- _Review the AddCart procedure and apply GeneXus best practices_
+- _Generate a Data Provider from Customer but based in SDT and add output example_
+
 ---
 
 ## CONTRIBUTION
