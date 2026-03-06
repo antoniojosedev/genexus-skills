@@ -287,4 +287,4 @@ Before finalizing any work, verify:
 - Follow security best practices
 - Check all object references exist before creation
 - Verify solution completeness and correctness
-- Updates modify only requested items
+- Updates modify only requested items; never touch undocumented objects
