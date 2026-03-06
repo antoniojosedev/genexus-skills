@@ -117,7 +117,7 @@ Checklist:
 - [ ] Prefer `smart`, use `table` for legacy, and `canvas` for absolute/overlap only
 - [ ] Define each child  in `canvas` with `width`, `height`, and one axis anchor
 - [ ] Avoid mixing `canvas` heavy positioning with `smart` flow in one section
-- [ ] Reserve `Refresh` event for recalculation/filtering 
+- [ ] Reserve `Refresh` event for recalculation/filtering
 - [ ] Reserve `Load`/`Grid.Load` event for row-by-row population
 - [ ] Bind every action requires with explicit event that shows user feedback after execution
 - [ ] Verify `Style` property references the correct `DesignSystem` object and all classes exist
@@ -203,17 +203,26 @@ EndEvent
 ---
 
 # LAYOUT
-Declarative layout using XML-based format called GXML with:
+Declarative XML-based screen layout schema used in `#Layout` section
+
+Scope:
+- Define hirarchical structure and control composition
+- Define visual styling in `DesignSystem` object classes
+
+Format:
+- Indent using tabs (`\t`); whitespaces forbidden
+- Indent attributes one tab deeper than the element
+- Expand element tags as multiline when more than two attributes
+- Place element name alone on opening line
+- Place one attribute per line
+
+Elements:
 - `<smart>`: Modern div-based responsive layout
 - `<table>`: Legacy table-based layout
 - `<canvas>`: Absolute positioning with overlapping
 - `<grid>`: Data grid with items
 - `<input>`, `<label>`, `<button>`, `<image>`: UI controls
 - `<stencil>`: Embedded reusable layout
-
-Scope:
-- Define structure and control composition in `#Layout` section
-- Define visual styling in `DesignSystem` object classes
 
 Size units:
 - `px` (Web), `dip` (native) for absolute
@@ -273,19 +282,42 @@ Panel CustomerList
 	#Layout
 		<layout>
 			<view>
-				<smart name="MainTable" class="page" width="100%" height="100%" columnsStyle="100%" rowsStyle="96dip;100%;72dip">
+				<smart
+					name="MainTable"
+					class="page"
+					width="100%"
+					height="100%"
+					olumnsStyle="100%"
+					rowsStyle="96dip;100%;72dip">
 					<row>
-						<cell class="page-header" hAlign="Left" vAlign="Middle">
-							<label name="Title" caption="Customers" class="text-title" />
+						<cell
+							class="page-header"
+							hAlign="Left"
+							vAlign="Middle">
+							<label
+								name="Title"
+								caption="Customers"
+								class="text-title"/>
 						</cell>
 					</row>
 					<row>
 						<cell class="page-content">
-							<grid name="GridCustomers" class="surface" controlType="smart" autoGrow="True">
-								<smart name="GridCustomerItem" width="100%" height="88dip" class="surface-muted">
+							<grid
+								name="GridCustomers"
+								class="surface"
+								controlType="smart"
+								autoGrow="True">
+								<smart
+									name="GridCustomerItem"
+									width="100%"
+									height="88dip"
+									class="surface-muted">
 									<row>
 										<cell>
-											<input attribute="&amp;Customer.CustomerName" readonly="True" class="text-body" />
+											<input
+												attribute="&amp;Customer.CustomerName"
+												readonly="True"
+												class="text-body"/>
 										</cell>
 									</row>
 								</smart>
@@ -293,8 +325,15 @@ Panel CustomerList
 						</cell>
 					</row>
 					<row>
-						<cell class="page-footer" hAlign="Right" vAlign="Middle">
-							<button name="BtnNew" caption="New Customer" event="'NewCustomer'" class="btn-primary" />
+						<cell
+							class="page-footer"
+							hAlign="Right"
+							vAlign="Middle">
+							<button
+								name="BtnNew"
+								caption="New Customer"
+								event="'NewCustomer'"
+								class="btn-primary" />
 						</cell>
 					</row>
 				</smart>
@@ -352,25 +391,43 @@ Panel ProductDetail
 	#Layout
 		<layout>
 			<view>
-				<smart name="Container" width="100%" height="100%" columnsStyle="100%" rowsStyle="200dip;60dip;60dip;100%">
+				<smart
+					name="Container"
+					width="100%"
+					height="100%"
+					columnsStyle="100%"
+					rowsStyle="200dip;60dip;60dip;100%">
 					<row>
 						<cell hAlign="Center">
-							<image attribute="&amp;ProductImage" width="100%" height="200dip" />
+							<image
+								attribute="&amp;ProductImage"
+								width="100%"
+								height="200dip"/>
 						</cell>
 					</row>
 					<row>
 						<cell>
-							<input attribute="&amp;ProductName" readonly="True" class="text-title" />
+							<input
+								attribute="&amp;ProductName"
+								readonly="True"
+								class="text-title"/>
 						</cell>
 					</row>
 					<row>
 						<cell>
-							<input attribute="&amp;ProductPrice" readonly="True" class="text-body" />
+							<input
+								attribute="&amp;ProductPrice"
+								readonly="True"
+								class="text-body"/>
 						</cell>
 					</row>
 					<row>
 						<cell hAlign="Center" vAlign="Middle">
-							<button name="BtnBuy" caption="Buy Now" event="'BuyNow'" class="btn-primary" />
+							<button
+								name="BtnBuy"
+								caption="Buy Now"
+								event="'BuyNow'"
+								class="btn-primary"/>
 						</cell>
 					</row>
 				</smart>
