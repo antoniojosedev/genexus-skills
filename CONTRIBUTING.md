@@ -72,6 +72,11 @@ Flow recommendation:
 
 ## GUIDELINES
 - Write all files in **English** using [Markdown](https://www.markdownguide.org/) with clear section headings
+- Name files using **kebab-case** and a structured multi-segment pattern `<category>-<subject>[-<variant>].md`:
+  * Use lowercase words separated by hyphens.
+  * Avoid cryptic abbreviations or unclear identifiers.
+  * Name files following the pattern: category → subject → optional variants.
+  * Keep naming consistent across similar files within the repository.
 - Prioritize token/character efficiency as a primary objective:
   * Remove trailing whitespace.
   * Omit final periods when a line break already terminates the sentence.
