@@ -9,32 +9,28 @@ Shared output policy for `references/object-*.md`
 
 # OUTPUT MODES
 Use mode names `single-file` and `multi-file`:
-- `single-file`: One artifact with the full object in GeneXus syntax: `.main.gx`
-- `multi-file`: One artifact per syntax part: `.main.gx` plus optional native artifacts
+- `single-file`: One artifact with the full object in GeneXus syntax and sections: `.main.gx`
+- `multi-file`: One artifact per syntax region: `.source.gx` plus zero or more region artifacts
 
 ---
 
 # FORMAT MATRIX
-- `<name>.<type>.main.gx`
-	* Mandatory in both modes
-	* `single-file`: Complete object definition
-	* `multi-file`: Only GeneXus-specific definition
-- `<name>.<type>.layout.xml`
-	* Optional layout definition in XML syntax
-- `<name>.<type>.properties.toml`
-	* Optional object properties in TOML syntax
-- `<name>.<type>.documentation.md`
-	* Optional object documentation in Markdown syntax
+Canonical name templates:
+- Use `<name>.<type>.main.gx` for `single-file` mode
+- Use `<name>.<type>.<region>.<extension>` for `multi-file` mode
+	* Define `<region>` per defined object region; ensure `.source.gx` is present
+	* Choose `<extension>` per region native syntax; default `.gx` for GeneXus syntax
+
+Common region artifacts (when present):
+- `<name>.<type>.layout.xml` for object layout definition in GXML
+- `<name>.<type>.properties.toml` for object properties in TOML
+- `<name>.<type>.documentation.md` for object documentation in Markdown
 
 ---
 
 # SAVE POLICY
-When saving a target object, resolve mode in this order:
-1. Detect existing artifacts for the target object using canonical names:
-	* `<name>.<type>.main.gx`
-	* `<name>.<type>.layout.xml`
-	* `<name>.<type>.properties.toml`
-	* `<name>.<type>.documentation.md`
+When saving a target object, resolve mode in this order
+1. Detect existing artifacts for target object using [FORMAT MATRIX](#format-matrix) templates
 2. If artifacts exist:
 	* Infer current mode from existing files
 	* Preserve that mode by default
@@ -46,8 +42,8 @@ When saving a target object, resolve mode in this order:
 	* Otherwise default to `single-file`
 
 Mode inference rules:
-- For `single-file`, only `.main.gx` exists and split artifacts are absent
-- For `multi-file`, both `.main.gx` and at least one split artifact exist
+- For `single-file`, only `.main.gx` exists and region artifacts are absent
+- For `multi-file`, both `.source.gx` and at least one region artifact exist
 
 ---
 
@@ -55,7 +51,7 @@ Mode inference rules:
 Rules for file-system restructuring:
 1. `single-file` → `multi-file`
 	* Extract native artifact parts only when sections exist or are requested
-	* Keep only GeneXus-specific content in `<name>.<type>.main.gx` after successful split
+	* Keep only GeneXus-specific content in `<name>.<type>.source.gx` after successful split
 2. `multi-file` → `single-file`
 	* Consolidate all available parts into `<name>.<type>.main.gx` using target object `SYNTAX` section
 	* Remove obsolete split artifacts after successful consolidation
@@ -63,19 +59,84 @@ Rules for file-system restructuring:
 ---
 
 # EXAMPLES
-- Single-file object:
-	* `Customer.transaction.main.gx` (includes source, properties, and documentation)
-- Multi-file object:
-	* `Customer.transaction.main.gx`
-	* `Customer.transaction.properties.toml`
-	* `Customer.transaction.documentation.md`
+
+## Single-file object
+`Customer.transaction.main.gx`:
+```
+Transaction MyEntity
+{
+	MyEntityId [ DataType = "Numeric(4.0)", Autonumber="True" ]
+	MyEntityName [ DataType = "VarChar(64)" ]
+
+	#Rules
+		noaccept(MyEntityId);
+	#End
+
+	#Variables
+		Today
+		Time [ DataType = 'Character(8)' ]
+		Pgmname [ DataType = 'Character(128)' ]
+		Pgmdesc [ DataType = 'Character(256)' ]
+		Mode [ DataType = 'Character(3)' ]
+	#End
+
+	#Properties
+		"Business Component" = true
+	#End
+
+	#Documentation
+		# Definition
+		Documentation for MyEntity transaction
+
+		## Attributes
+		- MyEntityId: Record identifier
+		- MyEntityName: Record name
+	#End
+}
+```
+
+## Multi-file object
+`Customer.transaction.source.gx`:
+```
+MyEntityId [ DataType = "Numeric(4.0)", Autonumber="True" ]
+MyEntityName [ DataType = "VarChar(64)" ]
+```
+
+`Customer.transaction.rules.gx`:
+```
+noaccept(MyEntityId);
+```
+
+`Customer.transaction.variables.gx`:
+```
+Today
+Time [ DataType = 'Character(8)' ]
+Pgmname [ DataType = 'Character(128)' ]
+Pgmdesc [ DataType = 'Character(256)' ]
+Mode [ DataType = 'Character(3)' ]
+```
+
+`Customer.transaction.properties.toml`:
+```
+"Business Component" = true
+```
+
+`Customer.transaction.documentation.md`:
+```
+# Definition
+Documentation for MyEntity transaction
+
+## Attributes
+- MyEntityId: Record identifier
+- MyEntityName: Record name
+```
 
 ---
 
 # CONSTRAINTS
 - Output policy governs artifact selection and naming only
-- Output policy never overrides section completeness rules from object `SYNTAX` section
+- Output policy never overrides section completeness rules from the object `SYNTAX` section
 - Object-specific reference files may define exceptions to this policy
-- Enforce canonical naming only from `FORMAT MATRIX` section
+- Enforce canonical naming only from `FORMAT MATRIX`
 - Generate `multi-file` artifacts only when requested or required
 - Keep one mode per target object after save; never keep both `single-file` and `multi-file` artifacts
