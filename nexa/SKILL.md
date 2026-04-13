@@ -47,6 +47,7 @@ Each reference has specific purpose
 - `object-*.md`: Object specific knowledge for modeling solutions
 - `common-*.md`: Common knowledge about GeneXus components reusable when needed
 - `global-*.md`: Global instructions to be applied while working this skill
+- `model-*.md`: Knowledge Base model files and configuration nodes
 - `properties-*.md`: Property definitions for GeneXus objects and environments (id, type, default, values, description)
 
 Resource selection protocol:
@@ -128,7 +129,7 @@ When user requests modeling task:
 					- If Integrated Security: set `UseTrustedConnection = 'Yes'` and leave `UserId`/`UserPassword` empty
 					- If SQL Server Authentication: ask for `UserId` and `UserPassword`
 				d) If the generator is `Java`, always ask for `UserId` and `UserPassword` (Integrated Security is not applicable)
-				e) Create or update the `<name>.environment.local.gx` file following the `.local.gx` syntax defined in [object-environment](references/object-environment.md)
+				e) Create or update the `<name>.environment.local.gx` file following the `.local.gx` syntax defined in [Environment](references/model-environment.md)
 				f) Run `import_text_to_kb` with `names: ["environment:*"]` to apply changes
 				g) Then proceed with the build or database operation
 			6) If the user declines, proceed with the build or database operation without modifying the connection configuration
@@ -142,7 +143,7 @@ When user requests modeling task:
 	* When user requests database connection configuration (server, user, password, database name):
 		- NEVER use `set_kb_property` MCP tool for these values
 		- Instead, directly edit or create the `<name>.environment.local.gx` file in `src.ns/Preferences/`
-		- Follow the `.local.gx` syntax defined in [object-environment](references/object-environment.md)
+		- Follow the `.local.gx` syntax defined in [Environment](references/model-environment.md)
 		- After writing the file, run `import_text_to_kb` with `names: ["environment:*"]` to apply changes
 	* Run `export_kb_to_text` tool only if user explicitly requested
 		- Use `rootDirectory` with the `output directory` path
@@ -161,7 +162,7 @@ When a new environment is created or user requests changing the current environm
 	```
 	Version Design
 	{
-		#Properties.Local
+		#Properties
 			CurrentEnvironment = "<environment-name>"
 		#End
 	}
@@ -192,8 +193,31 @@ When user requests technical question:
 
 ---
 
+# MODEL DEFINITIONS
+Quick reference for model setup; stored in `/src.ns` sub directory
+
+## Knowledge Base
+- Purpose: Knowledge Base metadata with global settings like language, numeric length, and image paths
+- Constraint: Must be unique by Knowledge Base definition
+- Use when: Creating or validating Knowledge Base properties
+- Reference: [Model Knowledge Base](references/model-knowledge-base.md)
+
+## Version
+- Purpose: Design model metadata within the Knowledge Base defining version-level settings like styles
+- Constraint: Must be referenced by Knowledge Base definition file
+- Use when: Creating or validating Version properties
+- Reference: [Model Version](references/model-version.md)
+
+## Environment
+- Purpose: Environment metadata withing a Version defining generator, data store, and runtime settings
+- Constraint: Must be referenced by only one Version definition file
+- Use when: Creating or validating Environment properties
+- Reference: [Model Environment](references/model-environment.md)
+
+---
+
 # OBJECTS KNOWLEDGE
-Quick reference for appropriate use of each object type
+Quick reference for appropriate use of each object type; stored in `/src` sub directory
 
 ## Folder
 - Purpose: Simple directory container for organizing objects without encapsulation; cannot contain modules, only folder and other objects allowed
@@ -308,21 +332,6 @@ Quick reference for appropriate use of each object type
 - Purpose: Integration wrapper exposing external libraries/services to GeneXus through methods, properties, events, and types
 - Use when: Calling platform APIs, SDKs, native utilities, or external contracts not implemented as GeneXus objects
 - Reference: [ExternalObject object](references/object-external-object.md)
-
-## KnowledgeBase (KB)
-- Purpose: KB-level metadata defining global settings like language, numeric length, and image paths
-- Use when: Configuring KB-wide properties or creating a new knowledge base
-- Reference: [KnowledgeBase object](references/object-knowledgebase.md)
-
-## Version
-- Purpose: Design model metadata within the KB defining version-level defaults like styles
-- Use when: Configuring version design properties or reviewing version settings
-- Reference: [Version object](references/object-version.md)
-
-## Environment
-- Purpose: Deployment target configuration defining generator, data store, and runtime settings
-- Use when: Configuring environment targets (.NET/Java), database connections, or deployment settings
-- Reference: [Environment object](references/object-environment.md)
 
 ---
 

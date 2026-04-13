@@ -64,6 +64,7 @@ Use this file to select editable Version properties and metadata
 - Type: `string`
 
 ## Enable Integrated Security
+- Description: Enables GAM integrated security for the version
 - Type: `boolean`
 - Default: `False`
 
@@ -129,7 +130,7 @@ Use this file to select editable Version properties and metadata
 
 # USER INTERFACE
 
-## Default Theme
+## Default Style
 - Type: `string`
 
 ## Default Form Layout
@@ -448,3 +449,11 @@ Use this file to select editable Version properties and metadata
 	* `From Parent`: From Parent
 - Default: `From Parent`
 
+---
+
+# SPECIAL
+
+## CurrentEnvironment
+- Description: Specifies the current environment from a predefined list
+- Type: `string`
+- Location: `.local.gx`
